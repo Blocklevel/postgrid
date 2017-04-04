@@ -1,0 +1,11 @@
+{
+  "name": "postgrid",
+  "version": "0.0.1",
+  "main": "./index.js",
+  "license": "MIT",
+  "author": "Tim Rijkse <tim@blocklevel.nl>",
+  "dependencies": {
+    "postcss": "^5.2.16",
+    "reduce-function-call": "^1.0.2"
+  }
+}
