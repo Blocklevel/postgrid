@@ -147,6 +147,21 @@ module.exports = postcss.plugin('postgrid', function (options) {
 
         return
       }
+
+      /**
+       * gutter
+       * @param  {[type]} decl [description]
+       * @return {[type]}      [description]
+       */
+      if (decl.prop.match(/^gutter$/i)) {
+        decl.parent.append({ prop: 'background-clip', value: 'padding-box !important' })
+        decl.parent.append({ prop: 'border-color', value: 'transparent !important' })
+        decl.parent.append({ prop: 'border-style', value: 'solid' })
+
+        decl.prop = 'border-width'
+
+        return
+      }
     })
   }
 })
