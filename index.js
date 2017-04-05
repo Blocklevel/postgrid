@@ -65,6 +65,87 @@ module.exports = postcss.plugin('postgrid', function (options) {
 
         decl.prop = 'margin-left'
         decl.value = value
+
+        return
+      }
+
+      /**
+       * align
+       * @param  {[type]} decl [description]
+       * @return {[type]}      [description]
+       */
+      if (decl.prop.match(/^align$/i)) {
+        // Assign property
+        switch (decl.value) {
+          case 'left':
+          case 'center':
+          case 'right':
+            decl.prop = 'justify-content'
+            break;
+
+          case 'top':
+          case 'middle':
+          case 'bottom':
+            decl.prop = 'align-items'
+            break;
+        }
+
+        // Assign value
+        switch (decl.value) {
+          case 'top':
+          case 'left':
+            decl.value = 'flex-start'
+            break;
+
+          case 'middle':
+          case 'center':
+            decl.value = 'center'
+            break;
+
+          case 'bottom':
+          case 'right':
+            decl.value = 'flex-end'
+            break;
+        }
+
+        return
+      }
+
+      /**
+       * align-self
+       * @param  {[type]} decl [description]
+       * @return {[type]}      [description]
+       */
+      if (decl.prop.match(/^align-self$/i)) {
+        decl.prop = 'align-self'
+
+        switch (decl.value) {
+          case 'top':
+            decl.value = 'flex-start'
+            break;
+
+          case 'middle':
+            decl.value = 'center'
+            break;
+
+          case 'bottom':
+            decl.value = 'flex-end'
+            break;
+        }
+
+        return
+      }
+
+      /**
+       * space
+       * @param  {[type]} decl [description]
+       * @return {[type]}      [description]
+       */
+      if (decl.prop.match(/^space$/i)) {
+        decl.prop = 'justify-content'
+        decl.value = decl.value === 'around' ? 'space-around' : 'space-between'
+
+        return
       }
     })
   }
