@@ -22,15 +22,18 @@ module.exports = postcss.plugin('postgrid', function (options) {
        * @example
        */
       if (decl.prop.match(/^wrapper$/i)) {
-        const maxWidth = decl.value
+        const values = decl.value.split(' ')
+        const maxWidth = values[0] || '100%'
+        const direction = values[1] || 'row'
+        const wrap = values[2] || 'wrap'
 
         decl.prop = 'display'
         decl.value = 'flex'
 
-        decl.parent.append({ prop: 'flex', value: '0 1 auto' })
-        decl.parent.append({ prop: 'flex-direction', value: 'row' })
-        decl.parent.append({ prop: 'flex-wrap', value: 'wrap' })
-        decl.parent.append({ prop: 'max-width', value: maxWidth })
+        decl.parent.prepend({ prop: 'flex', value: '0 1 auto' })
+        decl.parent.prepend({ prop: 'flex-direction', value: direction })
+        decl.parent.prepend({ prop: 'flex-wrap', value: wrap })
+        decl.parent.prepend({ prop: 'max-width', value: maxWidth })
 
         return
       }
@@ -48,7 +51,7 @@ module.exports = postcss.plugin('postgrid', function (options) {
         decl.prop = 'flex'
         decl.value = `1 0 ${value}`
 
-        decl.parent.append({ prop: 'max-width', value: perc })
+        decl.parent.prepend({ prop: 'max-width', value: perc })
 
         return
       }
@@ -71,8 +74,6 @@ module.exports = postcss.plugin('postgrid', function (options) {
 
       /**
        * align
-       * @param  {[type]} decl [description]
-       * @return {[type]}      [description]
        */
       if (decl.prop.match(/^align$/i)) {
         // Assign property
@@ -154,9 +155,9 @@ module.exports = postcss.plugin('postgrid', function (options) {
        * @return {[type]}      [description]
        */
       if (decl.prop.match(/^gutter$/i)) {
-        decl.parent.append({ prop: 'background-clip', value: 'padding-box !important' })
-        decl.parent.append({ prop: 'border-color', value: 'transparent !important' })
-        decl.parent.append({ prop: 'border-style', value: 'solid' })
+        decl.parent.prepend({ prop: 'background-clip', value: 'padding-box !important' })
+        decl.parent.prepend({ prop: 'border-color', value: 'transparent !important' })
+        decl.parent.prepend({ prop: 'border-style', value: 'solid' })
 
         decl.prop = 'border-width'
 
