@@ -1,6 +1,6 @@
 {
   "name": "postgrid",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "main": "./index.js",
   "license": "MIT",
   "author": "Tim Rijkse <tim@blocklevel.nl>",
