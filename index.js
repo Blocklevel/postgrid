@@ -17,31 +17,28 @@ module.exports = postcss.plugin('postgrid', function (options) {
   return function (css) {
     css.walkDecls(function (decl) {
       /**
-       * wrapper
+       * Wrapper
+       *
        * A wrapper which makes all children listen to flex
-       * @example
        */
       if (decl.prop.match(/^wrapper$/i)) {
-        const values = decl.value.split(' ')
-        const maxWidth = values[0] || '100%'
-        const direction = values[1] || 'row'
-        const wrap = values[2] || 'wrap'
+        const maxWidth = decl.value
 
         decl.prop = 'display'
         decl.value = 'flex'
 
         decl.parent.prepend({ prop: 'flex', value: '0 1 auto' })
-        decl.parent.prepend({ prop: 'flex-direction', value: direction })
-        decl.parent.prepend({ prop: 'flex-wrap', value: wrap })
+        decl.parent.prepend({ prop: 'flex-direction', value: 'row' })
+        decl.parent.prepend({ prop: 'flex-wrap', value: 'wrap' })
         decl.parent.prepend({ prop: 'max-width', value: maxWidth })
 
         return
       }
 
       /**
-       * col
+       * Col
+       *
        * Define column widths
-       * @example
        */
       if (decl.prop.match(/^col$/i)) {
         const [count, total] = parseValues(decl.value)
@@ -57,9 +54,9 @@ module.exports = postcss.plugin('postgrid', function (options) {
       }
 
       /**
-       * push
+       * Push
+       *
        * Push columns to the right based on col width.
-       * @example
        */
       if (decl.prop.match(/^push$/i)) {
         const [count, total] = parseValues(decl.value)
@@ -73,10 +70,11 @@ module.exports = postcss.plugin('postgrid', function (options) {
       }
 
       /**
-       * align
+       * Align items
+       *
+       * Vertical alignment.
        */
       if (decl.prop.match(/^align$/i)) {
-        // Assign property
         switch (decl.value) {
           case 'left':
           case 'center':
@@ -91,7 +89,6 @@ module.exports = postcss.plugin('postgrid', function (options) {
             break;
         }
 
-        // Assign value
         switch (decl.value) {
           case 'top':
           case 'left':
@@ -113,9 +110,9 @@ module.exports = postcss.plugin('postgrid', function (options) {
       }
 
       /**
-       * align-self
-       * @param  {[type]} decl [description]
-       * @return {[type]}      [description]
+       * Align self
+       *
+       * Col alignment exceptions
        */
       if (decl.prop.match(/^align-self$/i)) {
         decl.prop = 'align-self'
@@ -138,9 +135,9 @@ module.exports = postcss.plugin('postgrid', function (options) {
       }
 
       /**
-       * space
-       * @param  {[type]} decl [description]
-       * @return {[type]}      [description]
+       * Space
+       *
+       * Fill empty space around or between cols
        */
       if (decl.prop.match(/^space$/i)) {
         decl.prop = 'justify-content'
@@ -150,9 +147,10 @@ module.exports = postcss.plugin('postgrid', function (options) {
       }
 
       /**
-       * gutter
-       * @param  {[type]} decl [description]
-       * @return {[type]}      [description]
+       * Gutters
+       *
+       * Using a transparent border combined with background-clip: padding-box
+       * enables you to use percentages on cols without the need to calc gutters
        */
       if (decl.prop.match(/^gutter$/i)) {
         decl.parent.prepend({ prop: 'background-clip', value: 'padding-box !important' })
