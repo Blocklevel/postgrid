@@ -22,15 +22,13 @@ module.exports = postcss.plugin('postgrid', function (options) {
        * A wrapper which makes all children listen to flex
        */
       if (decl.prop.match(/^wrapper$/i)) {
-        const maxWidth = decl.value
-
-        decl.prop = 'display'
-        decl.value = 'flex'
-
         decl.parent.prepend({ prop: 'flex', value: '0 1 auto' })
         decl.parent.prepend({ prop: 'flex-direction', value: 'row' })
         decl.parent.prepend({ prop: 'flex-wrap', value: 'wrap' })
-        decl.parent.prepend({ prop: 'max-width', value: maxWidth })
+        decl.parent.prepend({ prop: 'max-width', value: decl.value })
+
+        decl.prop = 'display'
+        decl.value = 'flex'
 
         return
       }
