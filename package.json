@@ -5,6 +5,6 @@
   "license": "MIT",
   "author": "Tim Rijkse <tim@blocklevel.nl>",
   "dependencies": {
-    "postcss": "^5.2.16"
+    "postcss": "^8.4.31"
   }
 }
